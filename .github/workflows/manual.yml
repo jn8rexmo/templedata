@@ -1,0 +1,33 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+on: [workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9' # install the python version needed
+
+      - name: install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: execute py script # run main.py
+        env:
+          SOME_SECRET: ${{ secrets.SOME_SECRET }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          LDS_USER: ${{ secrets.LDS_USER }}
+          LDS_PASSWORD: ${{ secrets.LDS_PASSWORD }}
+        run: python main.py
