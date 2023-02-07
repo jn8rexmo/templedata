@@ -63,9 +63,6 @@ if __name__ == "__main__":
 
 
     #--| Retrieve temple list from db
-    ############ PROBLEM: HARD-CODED LOGIN INFO!! FIX THIS ASAP. ###############
-    ############ FIX: https://www.youtube.com/watch?v=5iWhQWVXosU ##############
-    print("DB_PORT: ", DB_PORT)
     try:
         with connect(
             host=DB_HOST,
