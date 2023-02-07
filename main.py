@@ -15,6 +15,9 @@ import logging
 import logging.handlers
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -90,13 +93,13 @@ if __name__ == "__main__":
     browser.get("https://id.churchofjesuschrist.org/")
     time.sleep(2)
     user_name = browser.find_element(By.CSS_SELECTOR,'#okta-signin-username')
-    user_name.send_keys(ldsuser)
+    user_name.send_keys(os.environ["LDS_USER"])
     submit = browser.find_element(By.CSS_SELECTOR,'#okta-signin-submit')
     submit.click()
     time.sleep(5)
 
     password = browser.find_element(By.NAME,'password')
-    password.send_keys(ldspw)
+    password.send_keys(os.environ["LDS_PASSWORD"])
     submit = browser.find_element(By.CSS_SELECTOR,'.button-primary')
     submit.click()
     time.sleep(5)
