@@ -25,7 +25,9 @@ jobs:
 
       - name: set up chrome
         uses: browser-actions/setup-chrome@v1
-#         run: chrome --version
+      
+      - name: run chrome
+        run: chrome --version
         
       - name: execute py script # run main.py
         env:
