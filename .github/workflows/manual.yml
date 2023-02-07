@@ -1,6 +1,9 @@
 # This is a basic workflow that is manually triggered
 
 name: Manual workflow
+
+
+  
 on: [workflow_dispatch]
 jobs:
   build:
@@ -20,6 +23,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: set up chrome
+        uses: browser-actions/setup-chrome@v1
+        run: chrome --version
+        
       - name: execute py script # run main.py
         env:
           SOME_SECRET: ${{ secrets.SOME_SECRET }}
@@ -31,3 +38,5 @@ jobs:
           LDS_USER: ${{ secrets.LDS_USER }}
           LDS_PASSWORD: ${{ secrets.LDS_PASSWORD }}
         run: python main.py
+
+
