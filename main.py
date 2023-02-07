@@ -234,7 +234,29 @@ if __name__ == "__main__":
         # Store the data (or lack thereof)
         if sessions.count == 0:
             temple_no_data.append(temple_name)
-        temple_data.append(sessions)
+        else:
+               #--| Insert data into DB
+            try:
+                with connect(
+                    host=DB_HOST,
+                    user=DB_USER,
+                    password=DB_PASSWORD,
+                    database=DB_DATABASE,
+                    port=DB_PORT
+                ) as connection:
+        #             print(connection)
+                    insert_sessions_query = """
+                    INSERT INTO sessions
+                    (session_date, session_time, seats, session_type, temple_id)
+                    VALUES ( %s, %s, %s, %s, %s)
+                    """
+
+                    with connection.cursor() as cursor:
+                        cursor.executemany(insert_sessions_query, sessions)
+                        connection.commit()
+            except Error as e:
+                logger.info("Error connecting to DB to bulk insert data")
+        #         print("error inserting bulk data into db", e)
 
         # Write data to a JSON file (currently disabled)
         # with open(todaysdat
@@ -253,29 +275,6 @@ if __name__ == "__main__":
     # with open(todaysdateFile, 'a') as convert_file:
     #      convert_file.write(json.dumps(temple_data))
 
-
-    #--| Insert data into DB
-    try:
-        with connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_DATABASE,
-            port=DB_PORT
-        ) as connection:
-#             print(connection)
-            insert_sessions_query = """
-            INSERT INTO sessions
-            (session_date, session_time, seats, session_type, temple_id)
-            VALUES ( %s, %s, %s, %s, %s)
-            """
-
-            with connection.cursor() as cursor:
-                cursor.executemany(insert_sessions_query, sessions)
-                connection.commit()
-    except Error as e:
-        logger.info("Error connecting to DB to bulk insert data")
-#         print("error inserting bulk data into db", e)
 
 
 
