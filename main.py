@@ -42,6 +42,7 @@ try:
     LDS_PASSWORD=os.environ["LDS_PASSWORD"]
 except KeyError:
     logger.info("ENV variable(s) not available!")
+print(DB_PORT)
 
 
 if __name__ == "__main__":
@@ -60,6 +61,7 @@ if __name__ == "__main__":
     #--| Retrieve temple list from db
     ############ PROBLEM: HARD-CODED LOGIN INFO!! FIX THIS ASAP. ###############
     ############ FIX: https://www.youtube.com/watch?v=5iWhQWVXosU ##############
+    print("DB_PORT: ", DB_PORT)
     try:
         with connect(
             host=DB_HOST,
@@ -93,13 +95,13 @@ if __name__ == "__main__":
     browser.get("https://id.churchofjesuschrist.org/")
     time.sleep(2)
     user_name = browser.find_element(By.CSS_SELECTOR,'#okta-signin-username')
-    user_name.send_keys(os.environ["LDS_USER"])
+    user_name.send_keys(LDS_USER)
     submit = browser.find_element(By.CSS_SELECTOR,'#okta-signin-submit')
     submit.click()
     time.sleep(5)
 
     password = browser.find_element(By.NAME,'password')
-    password.send_keys(os.environ["LDS_PASSWORD"])
+    password.send_keys(LDS_PASSWORD)
     submit = browser.find_element(By.CSS_SELECTOR,'.button-primary')
     submit.click()
     time.sleep(5)
