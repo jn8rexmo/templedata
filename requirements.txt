@@ -11,6 +11,7 @@ DateTime==5.0
 exceptiongroup==1.1.0
 h11==0.14.0
 idna==3.4
+lxml==4.9.1
 mysql-connector-python==8.0.32
 outcome==1.2.0
 packaging==23.0
