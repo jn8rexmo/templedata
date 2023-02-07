@@ -30,4 +30,7 @@ jobs:
           DB_PORT: ${{ secrets.DB_PORT }}
           LDS_USER: ${{ secrets.LDS_USER }}
           LDS_PASSWORD: ${{ secrets.LDS_PASSWORD }}
-        run: python main.py
+        if: env.DB_PORT == '3307'
+        run: echo "port number successfully stored in env"
+        
+#         run: python main.py
