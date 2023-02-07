@@ -10,6 +10,8 @@ import json
 import time
 import mysql.connector
 from mysql.connector import connect, Error
+import chromedriver_autoinstaller
+from pyvirtualdisplay import Display
 
 import logging
 import logging.handlers
@@ -17,6 +19,9 @@ import os
 
 from dotenv import load_dotenv
 load_dotenv()
+
+
+
 
 
 logger = logging.getLogger(__name__)
@@ -91,8 +96,26 @@ if __name__ == "__main__":
 
 
     #--| Setup web driver
-    System.setProperty("webdriver.chrome.driver", CHROME_LOCATION); 
-    browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    display = Display(visible=0, size=(800, 800))  
+    display.start()
+
+    chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
+                                          # and if it doesn't exist, download it automatically,
+                                          # then add chromedriver to path
+
+    chrome_options = webdriver.ChromeOptions()    
+    # Add your options as needed    
+    options = [
+      # Define window size here
+       "--window-size=1200,1200",
+        "--ignore-certificate-errors"
+    ]
+
+    for option in options:
+        chrome_options.add_argument(option)
+
+
+    browser = webdriver.Chrome(options = chrome_options)
 
 
     #--| Log In
