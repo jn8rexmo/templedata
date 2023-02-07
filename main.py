@@ -43,6 +43,10 @@ try:
 except KeyError:
     logger.info("ENV variable(s) not available!")
 print(DB_PORT)
+if DB_PORT == '3307':
+    print("DB_PORT is as expected.")
+else:
+    print("DB_PORT is not as expected.")
 
 
 if __name__ == "__main__":
