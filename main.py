@@ -42,11 +42,11 @@ try:
     LDS_PASSWORD=os.environ["LDS_PASSWORD"]
 except KeyError:
     logger.info("ENV variable(s) not available!")
-print(DB_PORT)
-if DB_PORT == '3307':
-    print("DB_PORT is as expected.")
-else:
-    print("DB_PORT is not as expected.")
+# print(DB_PORT)
+# if DB_PORT == '3307':
+#     print("DB_PORT is as expected.")
+# else:
+#     print("DB_PORT is not as expected.")
 
 
 if __name__ == "__main__":
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     temple_data=[]
     temple_no_data=[]
     today=datetime.today().isoformat()[:10]
-    print(today)
+#     print(today)
     todaysdateID="#0/"+datetime.today().strftime('%d/%Y')
     todaysdateFile="./data/"+ datetime.today().strftime('%m-%d-%Y') +".txt"
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
             database=DB_DATABASE,
             port=DB_PORT
         ) as connection:
-            print(connection)
+#             print(connection)
             select_temples_query = """
             SELECT temple_name, id FROM temples
             """
@@ -84,9 +84,10 @@ if __name__ == "__main__":
                 results=cursor.fetchall()
                 for result in results:
                     all_temples[result[0]]=result[1]
-                print("Temples found: ", all_temples)
+#                 print("Temples found: ", all_temples)
     except Error as e:
-        print("error retrieving list of temples from db", e)
+#         print("error retrieving list of temples from db", e)
+        logger.info("Error connecting to DB to retrieve list of temples")
 
 
 
@@ -137,7 +138,7 @@ if __name__ == "__main__":
         sessions=[]
 
         # Select temple
-        print(temple_name)
+#         print(temple_name)
         t=browser.find_element(By.LINK_TEXT,temple_name)
         t.click()
         time.sleep(2)
@@ -146,10 +147,8 @@ if __name__ == "__main__":
         if temple_name in all_temples.keys():
             t_id=all_temples[temple_name]
         else:
-            print("Temple not found: ", temple_name)
-            print("adding to db")
-            ############ PROBLEM: HARD-CODED LOGIN INFO!! FIX THIS ASAP. ###############
-            ############ FIX: https://www.youtube.com/watch?v=5iWhQWVXosU ##############
+#             print("Temple not found: ", temple_name)
+#             print("adding to db")
             try:
                 with connect(
                     host=DB_HOST,
@@ -158,18 +157,21 @@ if __name__ == "__main__":
                     database=DB_DATABASE,
                     port=DB_PORT
                 ) as connection:
-                    print(connection)
+#                     print(connection)
                     loc=browser.find_element(By.CSS_SELECTOR, '.your-temple-contact-info').text.replace("\n"," ")
                     add_temple_query = "INSERT INTO temples (temple_name, temple_location) VALUES ( \""+ temple_name + "\", \"" + loc + "\")"
-                    print(add_temple_query)
+#                     print(add_temple_query)
 
                     with connection.cursor() as cursor:
                         cursor.execute(add_temple_query)
                         connection.commit()
                         t_id=cursor.lastrowid
-                        print ("new id is ", t_id)
+#                         print ("new id is ", t_id)
             except Error as e:
-                print("error adding temple to db", e)
+                logger.info("Error connecting to DB to insert new temple")
+#                 print("error adding temple to db", e)
+                
+        
 
 
 
@@ -204,7 +206,7 @@ if __name__ == "__main__":
             ty=i.find("span", {"class": "schedule-type"}).text
             s=i.find("span", {"class": "seats-available-message"}).text.replace(" Seats Available","")
             session=[today, t, s, ty, t_id]
-            print(session)
+#             print(session)
             sessions.append(session)
 
         # Store the data (or lack thereof)
@@ -231,8 +233,6 @@ if __name__ == "__main__":
 
 
     #--| Insert data into DB
-    ############ PROBLEM: HARD-CODED LOGIN INFO!! FIX THIS ASAP. ###############
-    ############ FIX: https://www.youtube.com/watch?v=5iWhQWVXosU ##############
     try:
         with connect(
             host=DB_HOST,
@@ -241,7 +241,7 @@ if __name__ == "__main__":
             database=DB_DATABASE,
             port=DB_PORT
         ) as connection:
-            print(connection)
+#             print(connection)
             insert_sessions_query = """
             INSERT INTO sessions
             (session_date, session_time, seats, session_type, temple_id)
@@ -252,7 +252,8 @@ if __name__ == "__main__":
                 cursor.executemany(insert_sessions_query, sessions)
                 connection.commit()
     except Error as e:
-        print("error inserting bulk data into db", e)
+        logger.info("Error connecting to DB to bulk insert data")
+#         print("error inserting bulk data into db", e)
 
 
 
