@@ -59,11 +59,11 @@ if __name__ == "__main__":
     ############ FIX: https://www.youtube.com/watch?v=5iWhQWVXosU ##############
     try:
         with connect(
-            host=db_host,
-            user=db_user,
-            password=db_password,
-            database=db_database,
-            port=db_port
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_DATABASE,
+            port=DB_PORT
         ) as connection:
             print(connection)
             select_temples_query = """
@@ -143,11 +143,11 @@ if __name__ == "__main__":
             ############ FIX: https://www.youtube.com/watch?v=5iWhQWVXosU ##############
             try:
                 with connect(
-                    host=db_host,
-                    user=db_user,
-                    password=db_password,
-                    database=db_database,
-                    port=db_port
+                    host=DB_HOST,
+                    user=DB_USER,
+                    password=DB_PASSWORD,
+                    database=DB_DATABASE,
+                    port=DB_PORT
                 ) as connection:
                     print(connection)
                     loc=browser.find_element(By.CSS_SELECTOR, '.your-temple-contact-info').text.replace("\n"," ")
@@ -226,11 +226,11 @@ if __name__ == "__main__":
     ############ FIX: https://www.youtube.com/watch?v=5iWhQWVXosU ##############
     try:
         with connect(
-            host=db_host,
-            user=db_user,
-            password=db_password,
-            database=db_database,
-            port=db_port
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_DATABASE,
+            port=DB_PORT
         ) as connection:
             print(connection)
             insert_sessions_query = """
