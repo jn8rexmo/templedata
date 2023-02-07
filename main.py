@@ -40,6 +40,7 @@ try:
     DB_PORT=os.environ["DB_PORT"]
     LDS_USER=os.environ["LDS_USER"]
     LDS_PASSWORD=os.environ["LDS_PASSWORD"]
+    CHROME_LOCATION=os.environ["CHROME_LOCATION"]
 except KeyError:
     logger.info("ENV variable(s) not available!")
 # print(DB_PORT)
@@ -90,6 +91,7 @@ if __name__ == "__main__":
 
 
     #--| Setup web driver
+    System.setProperty("webdriver.chrome.driver", CHROME_LOCATION); 
     browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 
