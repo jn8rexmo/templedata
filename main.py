@@ -80,7 +80,7 @@ if __name__ == "__main__":
                     all_temples[result[0]]=result[1]
                 print("Temples found: ", all_temples)
     except Error as e:
-        print(e)
+        print("error retrieving list of temples from db", e)
 
 
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
                         t_id=cursor.lastrowid
                         print ("new id is ", t_id)
             except Error as e:
-                print(e)
+                print("error adding temple to db", e)
 
 
 
@@ -246,7 +246,7 @@ if __name__ == "__main__":
                 cursor.executemany(insert_sessions_query, sessions)
                 connection.commit()
     except Error as e:
-        print(e)
+        print("error inserting bulk data into db", e)
 
 
 
